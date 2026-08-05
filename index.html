@@ -102,13 +102,13 @@
     }
 
     .festejada-img {
-      width: 140px;
-      height: 140px;
+      width: 160px;
+      height: 160px;
       object-fit: cover;
       border-radius: 50%;
-      border: 2px solid var(--gold-primary);
+      border: 3px solid var(--gold-primary);
       margin: 0 auto 20px;
-      box-shadow: 0 0 20px rgba(212, 175, 55, 0.4);
+      box-shadow: 0 0 20px rgba(212, 175, 55, 0.5);
       display: block;
       background-color: #0b2416;
     }
@@ -258,13 +258,13 @@
 
   <div class="audio-control" id="audio-btn" title="Reproducir / Pausar Música">🔊</div>
   <audio id="bg-music" loop preload="auto">
-    <source src="musica.mp3" type="audio/mpeg">
+    <source src="./musica.mp3" type="audio/mpeg">
   </audio>
 
   <!-- PORTADA DE BIENVENIDA -->
   <div id="welcome-screen">
     <div class="welcome-card">
-      <img src="https://images.unsplash.com/photo-1518709268805-4e9042af9f23?q=80&w=800&auto=format&fit=crop" alt="Bosque Élfico Mágico" class="hero-img">
+      <img src="./tauriel_1.jpg" alt="Estilo Élfico" class="hero-img" onerror="this.src='https://images.unsplash.com/photo-1518709268805-4e9042af9f23?q=80&w=800';">
       <p class="welcome-text">"Has recibido una invitación muy especial..."</p>
       <button class="btn-elfic" id="open-btn">
         🌿 Abrir Invitación
@@ -276,11 +276,8 @@
   <div class="main-container">
     
     <div class="card reveal">
-      <!-- Intenta cargar la foto subida; si el nombre falla, busca variantes o muestra un marco decorativo -->
-      <img src="foto_festejada.jpg" 
-           onerror="this.onerror=null; this.src='foto_festejada.png'; this.onerror=function(){this.src='foto_festejada.jpeg';};" 
-           alt="Tauriel Ileana" 
-           class="festejada-img">
+      <!-- FOTO DE LA FESTEJADA -->
+      <img src="./foto_festejada.jpg" alt="Tauriel Ileana" class="festejada-img">
 
       <div class="subtitle">Ceremonia Tradicional</div>
       <h1 class="main-title">Jetz'mek</h1>
@@ -290,8 +287,8 @@
       <p class="info-label">En honor a</p>
       <h2 class="name-title">Tauriel Ileana Mex Chuc</h2>
 
-      <!-- Imagen Temática Élfica -->
-      <img src="https://images.unsplash.com/photo-1511497584788-876761c11969?q=80&w=800&auto=format&fit=crop" alt="Bosque Mágico" class="hero-img">
+      <!-- SEGUNDA IMAGEN DECORATIVA -->
+      <img src="./tauriel_2.jpg" alt="Estilo Élfico 2" class="hero-img" onerror="this.src='https://images.unsplash.com/photo-1511497584788-876761c11969?q=80&w=800';">
 
       <div class="divider"></div>
 
@@ -337,7 +334,7 @@
       
       bgMusic.play().then(() => {
         isPlaying = true;
-      }).catch(err => console.log("Música iniciada de forma manual."));
+      }).catch(err => console.log("Música iniciada."));
       
       checkScroll();
     });
