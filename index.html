@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Jetz'mek de Tauriel Ileana</title>
+
+  <!-- Fuentes de Google: Estilo Élfico y Mágico -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&family=Cinzel:wght@400;600;700&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
+
+  <style>
+    /* ==========================================
+       VARIABLES Y ESTILOS GENERALES
+       ========================================== */
+    :root {
+      --bg-dark: #0a130e;
+      --gold-primary: #d4af37;
+      --gold-light: #f3e5ab;
+      --emerald-dark: #052014;
+      --text-light: #f0f4f1;
+      --font-title: 'Cinzel Decorative', serif;
+      --font-sub: 'Cinzel', serif;
+      --font-body: 'Montserrat', sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--bg-dark);
+      color: var(--text-light);
+      font-family: var(--font-body);
+      overflow-x: hidden;
+      min-height: 100vh;
+    }
+
+    /* Canvas para partículas del bosque */
+    #forest-canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 1;
+      pointer-events: none;
+    }
+
+    /* ==========================================
+       PORTADA DE BIENVENIDA (OVERLAY)
+       ========================================== */
+    #welcome-screen {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: radial-gradient(circle at center, #122b1c 0%, #050a07 100%);
+      z-index: 100;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 20px;
+      transition: opacity 1.2s ease, visibility 1.2s ease;
+    }
+
+    #welcome-screen.hidden {
+      opacity: 0;
+      visibility: hidden;
+    }
+
+    .welcome-card {
+      border: 1px solid rgba(212, 175, 55, 0.4);
+      padding: 40px 25px;
+      border-radius: 15px;
+      background: rgba(5, 32, 20, 0.6);
+      backdrop-filter: blur(8px);
+      box-shadow: 0 0 30px rgba(0, 0, 0, 0.8), inset 0 0 15px rgba(212, 175, 55, 0.2);
+      max-width: 450px;
+      width: 100%;
+      animation: float 4s ease-in-out infinite;
+    }
+
+    .welcome-text {
+      font-family: var(--font-sub);
+      font-size: 1.2rem;
+      color: var(--gold-light);
+      margin-bottom: 30px;
+      letter-spacing: 1px;
+      line-height: 1.6;
+      font-style: italic;
+    }
+
+    /* ==========================================
+       BOTONES ESTILO ÉLFICO
+       ========================================== */
+    .btn-elfic {
+      background: linear-gradient(135deg, #1b432c 0%, #0b2416 100%);
+      color: var(--gold-light);
+      border: 1px solid var(--gold-primary);
+      padding: 14px 28px;
+      font-family: var(--font-sub);
+      font-size: 0.95rem;
+      font-weight: 600;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      border-radius: 30px;
+      cursor: pointer;
+      box-shadow: 0 0 15px rgba(212, 175, 55, 0.3);
+      transition: all 0.3s ease;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    .btn-elfic:hover {
+      background: linear-gradient(135deg, #285e3f 0%, #123822 100%);
+      box-shadow: 0 0 25px rgba(212, 175, 55, 0.6);
+      transform: translateY(-2px);
+      color: #ffffff;
+    }
+
+    /* ==========================================
+       CONTENIDO PRINCIPAL
+       ========================================== */
+    .main-container {
+      position: relative;
+      z-index: 2;
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 40px 20px;
+      text-align: center;
+    }
+
+    .card {
+      background: rgba(10, 19, 14, 0.75);
+      border: 1px solid rgba(212, 175, 55, 0.3);
+      backdrop-filter: blur(10px);
+      border-radius: 20px;
+      padding: 40px 25px;
+      margin-bottom: 30px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    }
+
+    /* Simbolo Élfico / Icono Superior */
+    .emblem {
+      width: 70px;
+      height: 70px;
+      margin: 0 auto 20px;
+      opacity: 0.9;
+    }
+
+    .subtitle {
+      font-family: var(--font-sub);
+      color: var(--gold-primary);
+      font-size: 0.9rem;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      margin-bottom: 10px;
+    }
+
+    .main-title {
+      font-family: var(--font-title);
+      color: var(--gold-light);
+      font-size: 2rem;
+      margin-bottom: 15px;
+      text-shadow: 0 0 10px rgba(212, 175, 55, 0.4);
+      line-height: 1.2;
+    }
+
+    .name-title {
+      font-family: var(--font-title);
+      color: var(--gold-primary);
+      font-size: 1.5rem;
+      margin-bottom: 25px;
+    }
+
+    .divider {
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--gold-primary), transparent);
+      margin: 25px auto;
+      width: 80%;
+    }
+
+    .info-group {
+      margin: 25px 0;
+    }
+
+    .info-label {
+      font-family: var(--font-sub);
+      color: var(--gold-light);
+      font-size: 0.85rem;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      margin-bottom: 5px;
+    }
+
+    .info-value {
+      font-size: 1.1rem;
+      color: #ffffff;
+      font-weight: 300;
+    }
+
+    .buttons-container {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+      margin-top: 30px;
+    }
+
+    /* Control de audio flotante */
+    .audio-control {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      z-index: 50;
+      background: rgba(5, 32, 20, 0.8);
+      border: 1px solid var(--gold-primary);
+      width: 45px;
+      height: 45px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      box-shadow: 0 0 10px rgba(0,0,0,0.5);
+    }
+
+    /* ANIMACIONES DE SCROLL */
+    .reveal {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: all 1s ease;
+    }
+
+    .reveal.active {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Canvas de fondo para partículas y hojas -->
+  <canvas id="forest-canvas"></canvas>
+
+  <!-- Control de audio flotante (Opcional) -->
+  <div class="audio-control" id="audio-btn" title="Reproducir / Pausar Música">
+    🔊
+  </div>
+  <!-- Reemplaza "musica_bosque.mp3" con la ruta de tu archivo de audio -->
+  <audio id="bg-music" loop>
+    <source src="musica_bosque.mp3" type="audio/mpeg">
+  </audio>
+
+  <!-- PORTADA DE BIENVENIDA -->
+  <div id="welcome-screen">
+    <div class="welcome-card">
+      <p class="welcome-text">"Has recibido una invitación muy especial..."</p>
+      <button class="btn-elfic" id="open-btn">
+        🌿 Abrir Invitación
+      </button>
+    </div>
+  </div>
+
+  <!-- CONTENIDO PRINCIPAL DE LA INVITACIÓN -->
+  <div class="main-container">
+    
+    <div class="card reveal">
+      <!-- Icono SVG de Arco y Hoja Estilizados -->
+      <svg class="emblem" viewBox="0 0 100 100" fill="none" stroke="#d4af37" stroke-width="2">
+        <path d="M50 10 C30 30, 30 70, 50 90 C70 70, 70 30, 50 10 Z" fill="rgba(212, 175, 55, 0.05)"/>
+        <path d="M50 10 L50 90"/>
+        <path d="M20 50 Q50 20 80 50 Q50 80 20 50 Z"/>
+      </svg>
+
+      <div class="subtitle">Ceremonia Tradicional</div>
+      <h1 class="main-title">Jetz'mek</h1>
+      
+      <div class="divider"></div>
+
+      <p class="info-label">En honor a</p>
+      <h2 class="name-title">Tauriel Ileana Mex Chuc</h2>
+
+      <div class="divider"></div>
+
+      <div class="info-group">
+        <div class="info-label">📅 Fecha</div>
+        <div class="info-value">15 de Agosto de 2026</div>
+      </div>
+
+      <div class="info-group">
+        <div class="info-label">⏰ Hora</div>
+        <div class="info-value">11:00 a. m.</div>
+      </div>
+
+      <div class="info-group">
+        <div class="info-label">📍 Lugar</div>
+        <div class="info-value">Kancabdzonot, Domicilio Conocido</div>
+      </div>
+
+      <div class="divider"></div>
+
+      <!-- BOTONES DE ACCIÓN -->
+      <div class="buttons-container">
+        <!-- Reemplaza el enlace de Google Maps cuando lo tengas -->
+        <a href="https://maps.google.com" target="_blank" class="btn-elfic">
+          📍 Ver Ubicación en Maps
+        </a>
+
+        <!-- Configura el número de teléfono con tu código de país en 'wa.me/NUMERO' -->
+        <a href="https://wa.me/?text=Hola,%20confirmo%20mi%20asistencia%20al%20Jetz'mek%20de%20Tauriel%20Ileana." target="_blank" class="btn-elfic">
+          💬 Confirmar por WhatsApp
+        </a>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    /* ==========================================
+       MANEJO DE PORTADA Y AUDIO
+       ========================================== */
+    const openBtn = document.getElementById('open-btn');
+    const welcomeScreen = document.getElementById('welcome-screen');
+    const bgMusic = document.getElementById('bg-music');
+    const audioBtn = document.getElementById('audio-btn');
+    let isPlaying = false;
+
+    openBtn.addEventListener('click', () => {
+      welcomeScreen.classList.add('hidden');
+      
+      // Intentar reproducir música tras la interacción del usuario
+      bgMusic.play().then(() => {
+        isPlaying = true;
+      }).catch(err => console.log("El reproductor requiere interacción manual o no hay archivo cargado."));
+      
+      // Activar revelación de scroll inicial
+      checkScroll();
+    });
+
+    audioBtn.addEventListener('click', () => {
+      if (isPlaying) {
+        bgMusic.pause();
+        audioBtn.textContent = '🔇';
+      } else {
+        bgMusic.play();
+        audioBtn.textContent = '🔊';
+      }
+      isPlaying = !isPlaying;
+    });
+
+    /* ==========================================
+       ANIMACIÓN DE PARTÍCULAS (BOSQUE MÁGICO)
+       ========================================== */
+    const canvas = document.getElementById('forest-canvas');
+    const ctx = canvas.getContext('2d');
+
+    function resizeCanvas() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    }
+    window.addEventListener('resize', resizeCanvas);
+    resizeCanvas();
+
+    const particles = [];
+    const particleCount = 40;
+
+    class Particle {
+      constructor() {
+        this.reset();
+      }
+
+      reset() {
+        this.x = Math.random() * canvas.width;
+        this.y = Math.random() * canvas.height;
+        this.size = Math.random() * 3 + 1;
+        this.speedX = Math.random() * 1 - 0.5;
+        this.speedY = Math.random() * 0.8 + 0.2;
+        this.opacity = Math.random() * 0.6 + 0.2;
+        // Colores: hojas/luces doradas y verdes élficos
+        const colors = ['#d4af37', '#73a982', '#f3e5ab'];
+        this.color = colors[Math.floor(Math.random() * colors.length)];
+      }
+
+      update() {
+        this.x += this.speedX;
+        this.y += this.speedY;
+
+        if (this.y > canvas.height || this.x < 0 || this.x > canvas.width) {
+          this.reset();
+          this.y = 0;
+        }
+      }
+
+      draw() {
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+        ctx.fillStyle = this.color;
+        ctx.globalAlpha = this.opacity;
+        ctx.shadowBlur = 8;
+        ctx.shadowColor = this.color;
+        ctx.fill();
+        ctx.globalAlpha = 1;
+      }
+    }
+
+    for (let i = 0; i < particleCount; i++) {
+      particles.push(new Particle());
+    }
+
+    function animateParticles() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      particles.forEach(p => {
+        p.update();
+        p.draw();
+      });
+      requestAnimationFrame(animateParticles);
+    }
+    animateParticles();
+
+    /* ==========================================
+       ANIMACIÓN SUAVE AL HACER SCROLL
+       ========================================== */
+    const reveals = document.querySelectorAll('.reveal');
+
+    function checkScroll() {
+      const triggerBottom = window.innerHeight * 0.85;
+      reveals.forEach(reveal => {
+        const revealTop = reveal.getBoundingClientRect().top;
+        if (revealTop < triggerBottom) {
+          reveal.classList.add('active');
+        }
+      });
+    }
+
+    window.addEventListener('scroll', checkScroll);
+  </script>
+</body>
+</html>
