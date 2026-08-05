@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Jetz'mek de Tauriel Ileana</title>
 
-  <!-- Fuentes de Google: Estilo Élfico y Mágico -->
+  <!-- Fuentes de Google -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&family=Cinzel:wght@400;600;700&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
@@ -71,9 +71,9 @@
 
     .welcome-card {
       border: 1px solid rgba(212, 175, 55, 0.4);
-      padding: 40px 25px;
+      padding: 30px 20px;
       border-radius: 15px;
-      background: rgba(5, 32, 20, 0.7);
+      background: rgba(5, 32, 20, 0.85);
       backdrop-filter: blur(8px);
       box-shadow: 0 0 30px rgba(0, 0, 0, 0.8), inset 0 0 15px rgba(212, 175, 55, 0.2);
       max-width: 450px;
@@ -83,11 +83,11 @@
 
     .welcome-text {
       font-family: var(--font-sub);
-      font-size: 1.2rem;
+      font-size: 1.1rem;
       color: var(--gold-light);
-      margin-bottom: 25px;
+      margin-bottom: 20px;
       letter-spacing: 1px;
-      line-height: 1.6;
+      line-height: 1.5;
       font-style: italic;
     }
 
@@ -97,7 +97,7 @@
       object-fit: cover;
       border-radius: 10px;
       border: 1px solid var(--gold-primary);
-      margin-bottom: 25px;
+      margin-bottom: 20px;
       box-shadow: 0 5px 15px rgba(0,0,0,0.5);
     }
 
@@ -110,6 +110,7 @@
       margin: 0 auto 20px;
       box-shadow: 0 0 20px rgba(212, 175, 55, 0.4);
       display: block;
+      background-color: #0b2416;
     }
 
     .btn-elfic {
@@ -255,7 +256,6 @@
 
   <canvas id="forest-canvas"></canvas>
 
-  <!-- Botón de Audio Flotante -->
   <div class="audio-control" id="audio-btn" title="Reproducir / Pausar Música">🔊</div>
   <audio id="bg-music" loop preload="auto">
     <source src="musica.mp3" type="audio/mpeg">
@@ -264,7 +264,7 @@
   <!-- PORTADA DE BIENVENIDA -->
   <div id="welcome-screen">
     <div class="welcome-card">
-      <img src="tauriel_1.jpg" alt="Guerrera Élfica" class="hero-img">
+      <img src="https://images.unsplash.com/photo-1518709268805-4e9042af9f23?q=80&w=800&auto=format&fit=crop" alt="Bosque Élfico Mágico" class="hero-img">
       <p class="welcome-text">"Has recibido una invitación muy especial..."</p>
       <button class="btn-elfic" id="open-btn">
         🌿 Abrir Invitación
@@ -276,8 +276,11 @@
   <div class="main-container">
     
     <div class="card reveal">
-      <!-- Foto de la Festejada -->
-      <img src="foto_festejada.jpg" alt="Tauriel Ileana" class="festejada-img">
+      <!-- Intenta cargar la foto subida; si el nombre falla, busca variantes o muestra un marco decorativo -->
+      <img src="foto_festejada.jpg" 
+           onerror="this.onerror=null; this.src='foto_festejada.png'; this.onerror=function(){this.src='foto_festejada.jpeg';};" 
+           alt="Tauriel Ileana" 
+           class="festejada-img">
 
       <div class="subtitle">Ceremonia Tradicional</div>
       <h1 class="main-title">Jetz'mek</h1>
@@ -288,7 +291,7 @@
       <h2 class="name-title">Tauriel Ileana Mex Chuc</h2>
 
       <!-- Imagen Temática Élfica -->
-      <img src="tauriel_2.jpg" alt="Estilo Élfico" class="hero-img">
+      <img src="https://images.unsplash.com/photo-1511497584788-876761c11969?q=80&w=800&auto=format&fit=crop" alt="Bosque Mágico" class="hero-img">
 
       <div class="divider"></div>
 
@@ -334,7 +337,7 @@
       
       bgMusic.play().then(() => {
         isPlaying = true;
-      }).catch(err => console.log("La música se activará con control manual."));
+      }).catch(err => console.log("Música iniciada de forma manual."));
       
       checkScroll();
     });
