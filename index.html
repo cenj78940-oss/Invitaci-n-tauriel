@@ -11,9 +11,6 @@
   <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&family=Cinzel:wght@400;600;700&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
 
   <style>
-    /* ==========================================
-       VARIABLES Y ESTILOS GENERALES
-       ========================================== */
     :root {
       --bg-dark: #0a130e;
       --gold-primary: #d4af37;
@@ -39,7 +36,6 @@
       min-height: 100vh;
     }
 
-    /* Canvas para partículas del bosque */
     #forest-canvas {
       position: fixed;
       top: 0;
@@ -50,9 +46,7 @@
       pointer-events: none;
     }
 
-    /* ==========================================
-       PORTADA DE BIENVENIDA (OVERLAY)
-       ========================================== */
+    /* PORTADA DE BIENVENIDA */
     #welcome-screen {
       position: fixed;
       top: 0;
@@ -79,7 +73,7 @@
       border: 1px solid rgba(212, 175, 55, 0.4);
       padding: 40px 25px;
       border-radius: 15px;
-      background: rgba(5, 32, 20, 0.6);
+      background: rgba(5, 32, 20, 0.7);
       backdrop-filter: blur(8px);
       box-shadow: 0 0 30px rgba(0, 0, 0, 0.8), inset 0 0 15px rgba(212, 175, 55, 0.2);
       max-width: 450px;
@@ -91,15 +85,33 @@
       font-family: var(--font-sub);
       font-size: 1.2rem;
       color: var(--gold-light);
-      margin-bottom: 30px;
+      margin-bottom: 25px;
       letter-spacing: 1px;
       line-height: 1.6;
       font-style: italic;
     }
 
-    /* ==========================================
-       BOTONES ESTILO ÉLFICO
-       ========================================== */
+    .hero-img {
+      width: 100%;
+      max-height: 220px;
+      object-fit: cover;
+      border-radius: 10px;
+      border: 1px solid var(--gold-primary);
+      margin-bottom: 25px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+    }
+
+    .festejada-img {
+      width: 140px;
+      height: 140px;
+      object-fit: cover;
+      border-radius: 50%;
+      border: 2px solid var(--gold-primary);
+      margin: 0 auto 20px;
+      box-shadow: 0 0 20px rgba(212, 175, 55, 0.4);
+      display: block;
+    }
+
     .btn-elfic {
       background: linear-gradient(135deg, #1b432c 0%, #0b2416 100%);
       color: var(--gold-light);
@@ -124,13 +136,9 @@
     .btn-elfic:hover {
       background: linear-gradient(135deg, #285e3f 0%, #123822 100%);
       box-shadow: 0 0 25px rgba(212, 175, 55, 0.6);
-      transform: translateY(-2px);
       color: #ffffff;
     }
 
-    /* ==========================================
-       CONTENIDO PRINCIPAL
-       ========================================== */
     .main-container {
       position: relative;
       z-index: 2;
@@ -141,21 +149,13 @@
     }
 
     .card {
-      background: rgba(10, 19, 14, 0.75);
+      background: rgba(10, 19, 14, 0.85);
       border: 1px solid rgba(212, 175, 55, 0.3);
       backdrop-filter: blur(10px);
       border-radius: 20px;
       padding: 40px 25px;
       margin-bottom: 30px;
       box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-    }
-
-    /* Simbolo Élfico / Icono Superior */
-    .emblem {
-      width: 70px;
-      height: 70px;
-      margin: 0 auto 20px;
-      opacity: 0.9;
     }
 
     .subtitle {
@@ -216,13 +216,12 @@
       margin-top: 30px;
     }
 
-    /* Control de audio flotante */
     .audio-control {
       position: fixed;
       bottom: 20px;
       right: 20px;
       z-index: 50;
-      background: rgba(5, 32, 20, 0.8);
+      background: rgba(5, 32, 20, 0.9);
       border: 1px solid var(--gold-primary);
       width: 45px;
       height: 45px;
@@ -232,9 +231,9 @@
       justify-content: center;
       cursor: pointer;
       box-shadow: 0 0 10px rgba(0,0,0,0.5);
+      color: var(--gold-light);
     }
 
-    /* ANIMACIONES DE SCROLL */
     .reveal {
       opacity: 0;
       transform: translateY(30px);
@@ -254,21 +253,18 @@
 </head>
 <body>
 
-  <!-- Canvas de fondo para partículas y hojas -->
   <canvas id="forest-canvas"></canvas>
 
-  <!-- Control de audio flotante (Opcional) -->
-  <div class="audio-control" id="audio-btn" title="Reproducir / Pausar Música">
-    🔊
-  </div>
-  <!-- Reemplaza "musica_bosque.mp3" con la ruta de tu archivo de audio -->
-  <audio id="bg-music" loop>
-    <source src="musica_bosque.mp3" type="audio/mpeg">
+  <!-- Botón de Audio Flotante -->
+  <div class="audio-control" id="audio-btn" title="Reproducir / Pausar Música">🔊</div>
+  <audio id="bg-music" loop preload="auto">
+    <source src="musica.mp3" type="audio/mpeg">
   </audio>
 
   <!-- PORTADA DE BIENVENIDA -->
   <div id="welcome-screen">
     <div class="welcome-card">
+      <img src="tauriel_1.jpg" alt="Guerrera Élfica" class="hero-img">
       <p class="welcome-text">"Has recibido una invitación muy especial..."</p>
       <button class="btn-elfic" id="open-btn">
         🌿 Abrir Invitación
@@ -276,16 +272,12 @@
     </div>
   </div>
 
-  <!-- CONTENIDO PRINCIPAL DE LA INVITACIÓN -->
+  <!-- CONTENIDO PRINCIPAL -->
   <div class="main-container">
     
     <div class="card reveal">
-      <!-- Icono SVG de Arco y Hoja Estilizados -->
-      <svg class="emblem" viewBox="0 0 100 100" fill="none" stroke="#d4af37" stroke-width="2">
-        <path d="M50 10 C30 30, 30 70, 50 90 C70 70, 70 30, 50 10 Z" fill="rgba(212, 175, 55, 0.05)"/>
-        <path d="M50 10 L50 90"/>
-        <path d="M20 50 Q50 20 80 50 Q50 80 20 50 Z"/>
-      </svg>
+      <!-- Foto de la Festejada -->
+      <img src="foto_festejada.jpg" alt="Tauriel Ileana" class="festejada-img">
 
       <div class="subtitle">Ceremonia Tradicional</div>
       <h1 class="main-title">Jetz'mek</h1>
@@ -294,6 +286,9 @@
 
       <p class="info-label">En honor a</p>
       <h2 class="name-title">Tauriel Ileana Mex Chuc</h2>
+
+      <!-- Imagen Temática Élfica -->
+      <img src="tauriel_2.jpg" alt="Estilo Élfico" class="hero-img">
 
       <div class="divider"></div>
 
@@ -314,14 +309,11 @@
 
       <div class="divider"></div>
 
-      <!-- BOTONES DE ACCIÓN -->
       <div class="buttons-container">
-        <!-- Reemplaza el enlace de Google Maps cuando lo tengas -->
         <a href="https://maps.google.com" target="_blank" class="btn-elfic">
           📍 Ver Ubicación en Maps
         </a>
 
-        <!-- Configura el número de teléfono con tu código de país en 'wa.me/NUMERO' -->
         <a href="https://wa.me/?text=Hola,%20confirmo%20mi%20asistencia%20al%20Jetz'mek%20de%20Tauriel%20Ileana." target="_blank" class="btn-elfic">
           💬 Confirmar por WhatsApp
         </a>
@@ -331,9 +323,6 @@
   </div>
 
   <script>
-    /* ==========================================
-       MANEJO DE PORTADA Y AUDIO
-       ========================================== */
     const openBtn = document.getElementById('open-btn');
     const welcomeScreen = document.getElementById('welcome-screen');
     const bgMusic = document.getElementById('bg-music');
@@ -343,12 +332,10 @@
     openBtn.addEventListener('click', () => {
       welcomeScreen.classList.add('hidden');
       
-      // Intentar reproducir música tras la interacción del usuario
       bgMusic.play().then(() => {
         isPlaying = true;
-      }).catch(err => console.log("El reproductor requiere interacción manual o no hay archivo cargado."));
+      }).catch(err => console.log("La música se activará con control manual."));
       
-      // Activar revelación de scroll inicial
       checkScroll();
     });
 
@@ -363,9 +350,6 @@
       isPlaying = !isPlaying;
     });
 
-    /* ==========================================
-       ANIMACIÓN DE PARTÍCULAS (BOSQUE MÁGICO)
-       ========================================== */
     const canvas = document.getElementById('forest-canvas');
     const ctx = canvas.getContext('2d');
 
@@ -380,10 +364,7 @@
     const particleCount = 40;
 
     class Particle {
-      constructor() {
-        this.reset();
-      }
-
+      constructor() { this.reset(); }
       reset() {
         this.x = Math.random() * canvas.width;
         this.y = Math.random() * canvas.height;
@@ -391,21 +372,17 @@
         this.speedX = Math.random() * 1 - 0.5;
         this.speedY = Math.random() * 0.8 + 0.2;
         this.opacity = Math.random() * 0.6 + 0.2;
-        // Colores: hojas/luces doradas y verdes élficos
         const colors = ['#d4af37', '#73a982', '#f3e5ab'];
         this.color = colors[Math.floor(Math.random() * colors.length)];
       }
-
       update() {
         this.x += this.speedX;
         this.y += this.speedY;
-
         if (this.y > canvas.height || this.x < 0 || this.x > canvas.width) {
           this.reset();
           this.y = 0;
         }
       }
-
       draw() {
         ctx.beginPath();
         ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
@@ -418,35 +395,23 @@
       }
     }
 
-    for (let i = 0; i < particleCount; i++) {
-      particles.push(new Particle());
-    }
+    for (let i = 0; i < particleCount; i++) { particles.push(new Particle()); }
 
     function animateParticles() {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
-      particles.forEach(p => {
-        p.update();
-        p.draw();
-      });
+      particles.forEach(p => { p.update(); p.draw(); });
       requestAnimationFrame(animateParticles);
     }
     animateParticles();
 
-    /* ==========================================
-       ANIMACIÓN SUAVE AL HACER SCROLL
-       ========================================== */
     const reveals = document.querySelectorAll('.reveal');
-
     function checkScroll() {
       const triggerBottom = window.innerHeight * 0.85;
       reveals.forEach(reveal => {
         const revealTop = reveal.getBoundingClientRect().top;
-        if (revealTop < triggerBottom) {
-          reveal.classList.add('active');
-        }
+        if (revealTop < triggerBottom) { reveal.classList.add('active'); }
       });
     }
-
     window.addEventListener('scroll', checkScroll);
   </script>
 </body>
